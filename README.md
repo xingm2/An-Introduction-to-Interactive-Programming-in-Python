@@ -8,3 +8,5 @@ http://www.codeskulptor.org/#user41_TdvvSKYEJvd6fvu.py
 
 #7 Spaceship
 http://www.codeskulptor.org/#user41_1T9sb4IY92CWRhi.py
+
+#8 Ricerock
