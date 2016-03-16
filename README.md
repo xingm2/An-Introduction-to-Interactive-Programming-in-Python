@@ -10,4 +10,4 @@ http://www.codeskulptor.org/#user41_TdvvSKYEJvd6fvu.py
 http://www.codeskulptor.org/#user41_1T9sb4IY92CWRhi.py
 
 #8 RiceRocks
-http://www.codeskulptor.org/#user41_VGpiPIeTyrsAEeM.py
+http://www.codeskulptor.org/#user41_XMCRIJhCy54Q3LJ.py
