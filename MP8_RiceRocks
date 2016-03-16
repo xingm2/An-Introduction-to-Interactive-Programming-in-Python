@@ -89,7 +89,17 @@ def angle_to_vector(ang):
 def dist(p, q):
     return math.sqrt((p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2)
 
-
+# added helper function 
+def group_collide(group, other_ob):
+    collisionNo = 0
+    removeSets = set([])
+    for rock in group:
+        if rock.collide(other_ob):
+            removeSets.add(rock)
+            collisionNo += 1 
+    group.difference_update(removeSets)
+    print collisionNo
+    return collisionNo
 # Ship class
 class Ship:
 
@@ -103,6 +113,12 @@ class Ship:
         self.image_center = info.get_center()
         self.image_size = info.get_size()
         self.radius = info.get_radius()
+    
+    # added
+    def get_postion(self):
+        return self.pos
+    def get_radius(self):
+        return self.radius
         
     def draw(self,canvas):
         if self.thrust:
@@ -170,7 +186,22 @@ class Sprite:
         if sound:
             sound.rewind()
             sound.play()
-   
+ 
+    # added
+    def get_postion(self):
+        return self.pos
+    def get_radius(self):
+        return self.radius 
+    def collide(self, other_ob):
+        if dist(self.get_postion(),other_ob.get_postion()) <= self.get_radius() + other_ob.get_radius():
+            print dist(self.get_postion(),other_ob.get_postion())
+            print self.get_postion()
+            print other_ob.get_postion()
+            print self.get_radius()
+            print other_ob.get_radius()
+            return True
+        return False
+
     def draw(self, canvas):
         canvas.draw_image(self.image, self.image_center, self.image_size,
                           self.pos, self.image_size, self.angle)
@@ -216,6 +247,9 @@ def click(pos):
 def draw(canvas):
     global time, started
     
+    global lives
+    global rock_group
+    
     # animiate background
     time += 1
     wtime = (time / 4) % WIDTH
@@ -243,6 +277,9 @@ def draw(canvas):
     
     # added
     process_sprite_group(rock_group, canvas)
+    
+    if group_collide(rock_group, my_ship) > 0 :
+        lives -= 1
 
     # draw splash screen if not started
     if not started:
@@ -256,8 +293,11 @@ def rock_spawner():
     rock_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
     rock_vel = [random.random() * .6 - .3, random.random() * .6 - .3]
     rock_avel = random.random() * .2 - .1
-    a_rock = Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info)
-    rock_group.add(a_rock)
+    if len(rock_group) < 12:
+        #print rock_group
+        #print len(rock_group)
+        
+        rock_group.add(Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info))
     
 # added
 def process_sprite_group (rock_set, canvas):
